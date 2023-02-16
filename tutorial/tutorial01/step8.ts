@@ -4,15 +4,17 @@
 // TON Access: 제한 없는 API 액세스를 무료로 제공하는 멋진 서비스
 // npm install @orbs-network/ton-access
 
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
+
 import { getHttpEndpoint } from "@orbs-network/ton-access";
 import { mnemonicToWalletKey } from "ton-crypto";
 import { WalletContractV4, TonClient, fromNano } from "ton";
 
 async function main() {
     // open wallet v4
-    // open wallet v4
-    const mnemonic = "<YOUR_MNEMONIC>";
-    const key = await mnemonicToWalletKey(mnemonic.split(" "));
+    const mnemonic = process.env.MNEMONIC;
+    const key = await mnemonicToWalletKey(mnemonic!.split(" "));
     const wallet = WalletContractV4.create({ publicKey: key.publicKey, workchain: 0 }); // 지갑이 wallet v4 r2와 다른 버전인 경우, 코드를 수정해야 함.(예: WalletContractV3R2)
 
     // initialize ton rpc client on testnet
